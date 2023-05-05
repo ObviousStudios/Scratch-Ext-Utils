@@ -1,8 +1,6 @@
 //VM SURFER
 //To use the module just paste this into your extension code before declaring the extension class.
 //This module is made by obviousAlexC so please give some credit if you use it.
-
-//TODO Improve VMSURFER and release a standalone version for people to use.
   const vmSurfer = {
     globalVariables: {},
     globalLists: {},
