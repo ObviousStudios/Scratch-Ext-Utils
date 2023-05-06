@@ -1,8 +1,6 @@
 //VM SURFER
 //To use the module just paste this into your extension code before declaring the extension class.
 //This module is made by obviousAlexC so please give some credit if you use it.
-
-//TODO fix up this code to make it work better
   const vmSurfer = {
     globalVariables: {},
     globalLists: {},
@@ -38,7 +36,7 @@
         }
         else if(target.isStage) {
           //Add the stage to VM SURFER so that we can surf the stage for global things.
-          this.sprites[target.id] = {
+          this.stage = {
             id: target.id,
             name: sprite.name,
             originalOBJ: target,
