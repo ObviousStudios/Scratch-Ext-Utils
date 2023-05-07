@@ -1,15 +1,17 @@
 //VM SURFER
-//To use the module just paste this into your extension code before declaring the extension class.
-//This module is made by obviousAlexC so please give some credit if you use it.
+  //To use the module just paste this into your extension code before declaring the extension class.
+  //This module is made by obviousAlexC so please give some credit if you use it.
   const vmSurfer = {
     globalVariables: {},
     globalLists: {},
     stage: {},
     sprites: {},
     clones: [],
+    clonesOfType: {},
     refreshJSON() {
       const targets = Scratch.vm.runtime.targets;
       this.sprites = {}; //Refresh the JSON object so that we don't have to do redunant checks to see if a variable no longer exists.
+      this.clonesOfType = {};
       for (let index = 0; index < targets.length; index++) {
         // We start from 1 so we don't grab the stage.
         const target = targets[index];
@@ -33,8 +35,7 @@
               this.sprites[target.id].variables[variable.id] = variable; //Add the current "Variable" to the variables array;
             }
           }
-        }
-        else if(target.isStage) {
+        } else if (target.isStage) {
           //Add the stage to VM SURFER so that we can surf the stage for global things.
           this.stage = {
             id: target.id,
@@ -51,10 +52,8 @@
               this.globalVariables[variable.id] = variable; //Add the current "Variable" to the variables array;
             }
           }
-        }
-        else if(!target.isOriginal){
-          const cloneDat = {}
-          cloneDat = {
+        } else if (!target.isOriginal) {
+          const cloneDat = {
             //Declare the sprite to the JSON object for later use.
             id: target.id,
             name: sprite.name,
@@ -62,6 +61,10 @@
             lists: {},
             variables: {},
           };
+
+          this.clonesOfType[cloneDat.name] = this.clonesOfType[cloneDat.name]
+            ? this.clonesOfType[cloneDat.name] + 1
+            : 1;
 
           const vars = target.variables;
           const varKeys = Object.keys(vars);
@@ -74,10 +77,11 @@
             }
           }
 
-          this.clones.push(cloneDat)
-        }
-        else{
-          console.warn("An object of an unknown type is inside of the target's JSON Object")
+          this.clones.push(cloneDat);
+        } else {
+          console.warn(
+            "An object of an unknown type is inside of the target's JSON Object"
+          );
         }
       }
     },
