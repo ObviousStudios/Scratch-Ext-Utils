@@ -1,4 +1,5 @@
 //Just please give credit if you use this @ObviousAlexC or @ThatOneWierdo92
+//Paste after declaring your extensions function or if a plugin after declaring the VM
 const vmSurfer = {
     globalVariables: {},
     globalLists: {},
