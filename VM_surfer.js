@@ -1,5 +1,6 @@
 //Just please give credit if you use this @ObviousAlexC or @ThatOneWierdo92
 //Paste after declaring your extensions function or if a plugin after declaring the VM
+//Refreshing the JSON will make sure that all the json objects are up to date.
 const vmSurfer = {
     globalVariables: {},
     globalLists: {},
