@@ -1,3 +1,4 @@
+//Just please give credit if you use this @ObviousAlexC or @ThatOneWierdo92
 const vmSurfer = {
     globalVariables: {},
     globalLists: {},
