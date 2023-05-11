@@ -1,185 +1,209 @@
-class ExtensionBuilder{
-    constructor(extensionName,extensionID,colors,icon){
-        Scratch = Scratch || {
-            TargetType: {
-              SPRITE: "sprite",
-              STAGE: "stage",
-            },
-            BlockType: {
-              COMMAND: "command",
-              REPORTER: "reporter",
-              BOOLEAN: "Boolean",
-              HAT: "hat",
-            },
-            ArgumentType: {
-              STRING: "string",
-              NUMBER: "number",
-              COLOR: "color",
-              ANGLE: "angle",
-              BOOLEAN: "Boolean",
-              MATRIX: "matrix",
-              NOTE: "note",
-            },
-            vm: window.vm,
-            extensions: {
-              unsandboxed: true,
-              register: (object) => {
-                const serviceName =
-                  vm.extensionManager._registerInternalExtension(object);
-                vm.extensionManager._loadedExtensions.set(
-                  object.getInfo().id,
-                  serviceName
-                );
-              },
-            },
-          };
-        //Initilize the extension json
-        this.internal = {}
-        this.internal.JSON = {
-            blocks:[],
-            menus:{}
+class ExtensionBuilder {
+  constructor(extensionName, extensionID, colors, icon) {
+    Scratch = Scratch || {
+      TargetType: {
+        SPRITE: "sprite",
+        STAGE: "stage",
+      },
+      BlockType: {
+        COMMAND: "command",
+        REPORTER: "reporter",
+        BOOLEAN: "Boolean",
+        HAT: "hat",
+      },
+      ArgumentType: {
+        STRING: "string",
+        NUMBER: "number",
+        COLOR: "color",
+        ANGLE: "angle",
+        BOOLEAN: "Boolean",
+        MATRIX: "matrix",
+        NOTE: "note",
+      },
+      vm: window.vm,
+      extensions: {
+        unsandboxed: true,
+        register: (object) => {
+          const serviceName =
+            vm.extensionManager._registerInternalExtension(object);
+          vm.extensionManager._loadedExtensions.set(
+            object.getInfo().id,
+            serviceName
+          );
+        },
+      },
+    };
+    //Initilize the extension json
+    this.internal = {};
+    this.internal.JSON = {
+      blocks: [],
+      menus: {},
+    };
+
+    //Putting this into the constructor because that is really funny
+    this.internal.defaultFunction = {
+      code: () => {
+        console.log("This block has no code");
+      },
+      arguments: {},
+    };
+
+    this.addDocs = (url) => {
+      this.internal.JSON.docsURI = url;
+    };
+
+    this.addBlock = (
+      blockName,
+      blockID,
+      blockType,
+      blockFunction,
+      blockArguments,
+      blockExtras
+    ) => {
+      blockFunction = blockFunction || this.internal.defaultFunction.code;
+
+      this[blockID] = blockFunction;
+      blockExtras = blockExtras || {};
+      const blockJson = blockExtras;
+
+      if (!blockJson.disableMonitor) {
+        blockJson.disableMonitor = true;
+      }
+
+      blockJson.opcode = blockID;
+      blockJson.blockType = blockType;
+      blockJson.text = blockName;
+
+      blockJson.arguments =
+        blockArguments || this.internal.defaultFunction.arguments;
+
+      const blockIndex = this.internal.JSON.blocks.length;
+      this.internal.JSON.blocks.push(blockJson);
+
+      this.internal.JSON.blocks[blockIndex].addArgument = (
+        argumentName,
+        defaultValue,
+        overideType,
+        menu
+      ) => {
+        overideType = overideType || null;
+
+        if (overideType == null) {
+          switch (typeof defaultValue) {
+            case "string":
+              overideType = Scratch.ArgumentType.STRING;
+              break;
+            case "boolean":
+              overideType = Scratch.ArgumentType.BOOLEAN;
+              break;
+            case "number":
+              overideType = Scratch.ArgumentType.NUMBER;
+              break;
+            case "bigint":
+              overideType = Scratch.ArgumentType.NUMBER;
+              break;
+
+            default:
+              overideType = Scratch.ArgumentType.STRING;
+              break;
+          }
         }
 
-        //Putting this into the constructor because that is really funny
-        this.internal.defaultFunction = {
-            code:() => {console.log("This block has no code")},
-            arguments: {}
+        this.internal.JSON.blocks[blockIndex].arguments[argumentName] = {
+          type: overideType,
+          defaultValue: defaultValue,
+        };
+
+        menu = menu || null;
+
+        if (menu && typeof menu == "string") {
+          this.internal.JSON.blocks[blockIndex].arguments[argumentName].menu =
+            menu;
         }
 
-        this.addDocs = (url) => {
-            this.internal.JSON.docsURI = url
+        return this.internal.JSON.blocks[blockIndex];
+      };
+
+      return this.internal.JSON.blocks[blockIndex];
+    };
+
+    this.addMenu = (menuName, menuData, acceptReporters) => {
+      acceptReporters = acceptReporters || false;
+      if (typeof menuData === "function") {
+        this[menuName + "Function"] = menuData;
+        this.internal.JSON.menus[menuName] = {
+          items: menuName + "Function",
+        };
+      } else {
+        this.internal.JSON.menus[menuName] = {
+          items: menuData,
+        };
+      }
+      this.internal.JSON.menus[menuName].acceptReporters = acceptReporters;
+    };
+
+    //Seperate this big chunk from the rest
+    this.internal.createBase = () => {
+      extensionName = extensionName || "Extension";
+      extensionID = extensionID || "extension";
+
+      this.internal.JSON.name = extensionName;
+      this.internal.JSON.id = extensionID;
+
+      colors = colors || {};
+
+      colors.blockColor = colors.blockColor || null;
+      colors.inputColor = colors.inputColor || null;
+      colors.outlineColor = colors.outlineColor || null;
+
+      if (colors.blockColor != null) {
+        const baseColor = colors.blockColor;
+        if (baseColor > 0x888888) {
+          this.internal.colors = [
+            baseColor,
+            baseColor - 0x030303,
+            baseColor - 0x060606,
+          ];
+        } else {
+          this.internal.colors = [
+            baseColor,
+            baseColor + 0x030303,
+            baseColor + 0x060606,
+          ];
         }
 
-        this.addBlock = (blockName,blockID,blockType,blockFunction,blockArguments,blockExtras) => {
-            blockFunction = blockFunction || this.internal.defaultFunction.code
-            
-            this[blockID] = blockFunction
-            blockExtras = blockExtras || {}
-            const blockJson = blockExtras 
-
-            if(!blockJson.disableMonitor){
-                blockJson.disableMonitor = true
-            }
-            
-            blockJson.opcode = blockID
-            blockJson.blockType = blockType
-            blockJson.text = blockName
-
-            blockJson.arguments = blockArguments || this.internal.defaultFunction.arguments
-
-            const blockIndex = this.internal.JSON.blocks.length
-            this.internal.JSON.blocks.push(blockJson)
-
-            this.internal.JSON.blocks[blockIndex].addArgument = (argumentName,defaultValue,overideType,menu) => {
-                overideType = overideType || null
-
-                if(overideType == null){
-                    switch (typeof defaultValue) {
-                        case "string":
-                            overideType = Scratch.ArgumentType.STRING
-                            break;
-                        case "boolean":
-                            overideType = Scratch.ArgumentType.BOOLEAN
-                            break;
-                        case "number":
-                            overideType = Scratch.ArgumentType.NUMBER
-                            break;
-                        case "bigint":
-                            overideType = Scratch.ArgumentType.NUMBER
-                            break;
-                    
-                        default:
-                            overideType = Scratch.ArgumentType.STRING
-                            break;
-                    }
-                }
-
-                this.internal.JSON.blocks[blockIndex].arguments[argumentName] = {
-                    type:overideType,
-                    defaultValue:defaultValue
-                }
-
-                menu = menu || null
-
-                if(menu && (typeof menu == "string")){
-                    this.internal.JSON.blocks[blockIndex].arguments[argumentName].menu = menu
-                }
-
-                return this.internal.JSON.blocks[blockIndex]
-            }
-
-            return this.internal.JSON.blocks[blockIndex]
+        if (typeof colors.inputColor != null) {
+          this.internal.colors[1] = colors.inputColor;
         }
 
-        this.addMenu = (menuName,menuData,acceptReporters) => {
-            acceptReporters = acceptReporters || false
-            if (typeof menuData === "function"){
-                this[menuName + "Function"] = menuData
-                this.internal.JSON.menus[menuName] = {
-                    items: menuName + "Function"
-                }
-            }
-            else{
-                this.internal.JSON.menus[menuName] = menuData
-            }
-            
+        if (typeof colors.outlineColor != null) {
+          this.internal.colors[2] = colors.outlineColor;
         }
 
-        //Seperate this big chunk from the rest
-        this.internal.createBase = () => {
-            extensionName = extensionName || "Extension"
-            extensionID = extensionID || "extension"
+        this.internal.JSON.color1 = this.internal.colors[0];
+        this.internal.JSON.color2 = this.internal.colors[1];
+        this.internal.JSON.color3 = this.internal.colors[2];
+      }
 
-            this.internal.JSON.name = extensionName
-            this.internal.JSON.id = extensionID
+      icon = icon || {};
 
-            colors = colors || {}
-            
-            colors.blockColor = colors.blockColor || null
-            colors.inputColor = colors.inputColor || null
-            colors.outlineColor = colors.outlineColor || null
-            
-            if(colors.blockColor != null){
-                const baseColor = colors.blockColor
-                if(baseColor > 0x888888){
-                    this.internal.colors = [baseColor,baseColor - 0x030303,baseColor - 0x060606]
-                }
-                else{
-                    this.internal.colors = [baseColor,baseColor + 0x030303,baseColor + 0x060606]
-                }
+      icon.blockIconUri = icon.blockIconUri || null;
+      icon.menuIconUri = icon.menuIconUri || icon.blockIconUri || null;
 
-                if(typeof colors.inputColor != null){
-                    this.internal.colors[1] = colors.inputColor
-                }
-                
-                if(typeof colors.outlineColor != null){
-                    this.internal.colors[2] = colors.outlineColor
-                }
+      this.menuUri = icon.menuIconUri;
+      this.blockIco = icon.blockIconUri;
 
-                this.internal.JSON.color1 = this.internal.colors[0]
-                this.internal.JSON.color2 = this.internal.colors[1]
-                this.internal.JSON.color3 = this.internal.colors[2]
-            }
+      this.docsUri = null;
+    };
 
-            icon = icon || {}
+    this.internal.createBase();
 
-            icon.blockIconUri = icon.blockIconUri || null
-            icon.menuIconUri = icon.menuIconUri || icon.blockIconUri || null
+    this.getInfo = () => {
+      return this.internal.JSON;
+    };
 
-            this.menuUri = icon.menuIconUri
-            this.blockIco = icon.blockIconUri
-
-            this.docsUri = null
-        }
-
-        this.internal.createBase()
-
-        this.getInfo = () => {
-            return this.internal.JSON
-        }
-
-        this.register = () => {
-            Scratch.extensions.register(this)
-        }
-    }
+    this.register = () => {
+      Scratch.extensions.register(this);
+    };
+  }
 }
