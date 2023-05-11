@@ -61,3 +61,15 @@ extension.addMenu("Menu",() => {
 
 #### Registering an extension
 and finally you can call extension.register() to register your extension
+```js
+const extension = new ExtensionBuilder("Test Extension", "tExt")
+
+extension.addBlock("Test Block [testArg]","tBlock",Scratch.BlockType.BOOLEAN,() => {
+    console.log("This Works!")
+}).addArgument("testArg","1",null,"Menu")
+
+extension.addMenu("Menu",["1","2","3"])
+
+extension.register()
+```
+the final code for creating an extension with a testing block!
