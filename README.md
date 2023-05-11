@@ -13,12 +13,12 @@ const extension = new ExtensionBuilder("Extension", "extension")
 ```
 
 #### Adding a block
-extension.addBlock() allows you to create a block in your extension
-the first argument is the text.
-the second is the block's ID.
-the third is the block type.
-the fourth is the functions code.
-the fifth is optional but allows you to overide and modify values in the block.
+extension.addBlock() allows you to create a block in your extension <br />
+the first argument is the text. <br />
+the second is the block's ID. <br />
+the third is the block type. <br />
+the fourth is the functions code. <br />
+the fifth is optional but allows you to overide and modify values in the block. <br />
 ```js
 extension.addBlock("Test Block [testArg]","tBlock",Scratch.BlockType.BOOLEAN,
 // The blocks code goes after the block type
@@ -28,11 +28,11 @@ extension.addBlock("Test Block [testArg]","tBlock",Scratch.BlockType.BOOLEAN,
 ```
 
 #### Adding an argument to a block
-Adding an argument is a simple as running addArgument() after declaring a block
-the first argument is the argument's name.
-the second argument is the default value with type inference built in.
-the third is optional and allows you to overide the type inference for the argument.
-the fourth is optional and lets you define a menu for the argument.
+Adding an argument is a simple as running addArgument() after declaring a block <br />
+the first argument is the argument's name. <br />
+the second argument is the default value with type inference built in. <br />
+the third is optional and allows you to overide the type inference for the argument. <br />
+the fourth is optional and lets you define a menu for the argument. <br />
 ```js
 extension.addBlock("Test Block [testArg]","tBlock",Scratch.BlockType.BOOLEAN,
 // The blocks code goes after the block type
@@ -42,10 +42,10 @@ extension.addBlock("Test Block [testArg]","tBlock",Scratch.BlockType.BOOLEAN,
 ```
 
 #### Adding a menu
-adding a menu can be done via extension.addMenu()
-the first argument is the menu name.
-the second argument is the menu's items this can either be a function or a json a function will make it a dynamic menu.
-the third optional is whther the menu accepts reporters or not.
+adding a menu can be done via extension.addMenu() <br />
+the first argument is the menu name. <br />
+the second argument is the menu's items this can either be a function or a json a function will make it a dynamic menu. <br />
+the third optional is whther the menu accepts reporters or not. <br />
 
 ##### Static menu example
 ```js
@@ -60,7 +60,7 @@ extension.addMenu("Menu",() => {
 ```
 
 #### Registering an extension
-and finally you can call extension.register() to register your extension
+and finally you can call extension.register() to register your extension <br />
 ```js
 const extension = new ExtensionBuilder("Test Extension", "tExt")
 
@@ -72,4 +72,4 @@ extension.addMenu("Menu",["1","2","3"])
 
 extension.register()
 ```
-the final code for creating an extension with a testing block!
+the final code for creating an extension with a testing block! <br />
