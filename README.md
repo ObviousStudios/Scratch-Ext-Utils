@@ -1,14 +1,14 @@
 # Table of contents
--  [Intro](https://github.com/ObviousStudios/VM-Utilities/edit/main/README.md#what-is-vm-utilities)
-    -  [VM Surfer](https://github.com/ObviousStudios/VM-Utilities/edit/main/README.md#vm-surfer)
-    -  [Extension Builder](https://github.com/ObviousStudios/VM-Utilities/edit/main/README.md#extension-builder)
-        -  [Initilizing](https://github.com/ObviousStudios/VM-Utilities/edit/main/README.md#initilizing-an-extension)
-        -  [Adding a Block](https://github.com/ObviousStudios/VM-Utilities/edit/main/README.md#adding-a-block)
-        -  [Arguments](https://github.com/ObviousStudios/VM-Utilities/edit/main/README.md#adding-an-argument-to-a-block)
-        -  [Menus](https://github.com/ObviousStudios/VM-Utilities/edit/main/README.md#adding-a-menu)
-            - [Static](https://github.com/ObviousStudios/VM-Utilities/edit/main/README.md#static-menu-example)
-            - [Dynamic](https://github.com/ObviousStudios/VM-Utilities/edit/main/README.md#dynamic-menu-example)
-        - [Registering](https://github.com/ObviousStudios/VM-Utilities/edit/main/README.md#registering-an-extension)
+-  [Intro](https://github.com/ObviousStudios/VM-Utilities/main/README.md#what-is-vm-utilities)
+    -  [VM Surfer](https://github.com/ObviousStudios/VM-Utilities/main/README.md#vm-surfer)
+    -  [Extension Builder](https://github.com/ObviousStudios/VM-Utilities/main/README.md#extension-builder)
+        -  [Initilizing](https://github.com/ObviousStudios/VM-Utilities/main/README.md#initilizing-an-extension)
+        -  [Adding a Block](https://github.com/ObviousStudios/VM-Utilities/main/README.md#adding-a-block)
+        -  [Arguments](https://github.com/ObviousStudios/VM-Utilities/main/README.md#adding-an-argument-to-a-block)
+        -  [Menus](https://github.com/ObviousStudios/VM-Utilities/main/README.md#adding-a-menu)
+            - [Static](https://github.com/ObviousStudios/VM-Utilities/main/README.md#static-menu-example)
+            - [Dynamic](https://github.com/ObviousStudios/VM-Utilities/main/README.md#dynamic-menu-example)
+        - [Registering](https://github.com/ObviousStudios/VM-Utilities/main/README.md#registering-an-extension)
 # What is VM-Utilities?
 A bunch of wrappers for better interacting with the scratch VM and the object's it holds within itself.
 
