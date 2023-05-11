@@ -3,6 +3,10 @@ A bunch of wrappers for better interacting with the scratch VM and the object's 
 
 ### VM surfer
 VM surfer allows you to surf through all sprites clones and the stage as well as thier local variables and lists.
+All you really need to know is how to refresh
+```js
+vmSurfer.refreshJSON();
+```
 
 ### Extension Builder
 Some code that makes building extensions faster since you don't have to sort through json and everything can be done through simple functions
