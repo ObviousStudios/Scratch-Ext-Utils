@@ -8,6 +8,7 @@
         -  [Menus](https://github.com/ObviousStudios/VM-Utilities/tree/main#adding-a-menu)
             - [Static](https://github.com/ObviousStudios/VM-Utilities/tree/main#static-menu-example)
             - [Dynamic](https://github.com/ObviousStudios/VM-Utilities/tree/main#dynamic-menu-example)
+        - [Filtering](https://github.com/ObviousStudios/VM-Utilities/tree/main#filtering-blocks)
         - [Registering](https://github.com/ObviousStudios/VM-Utilities/tree/main#registering-an-extension)
 # What is VM-Utilities?
 A bunch of wrappers for better interacting with the scratch VM and the object's it holds within itself.
