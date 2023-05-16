@@ -76,7 +76,7 @@ extension.addMenu("Menu",() => {
 ```
 
 #### Filtering Blocks
-You can use setFilter() to filter the blocks to a specific sprite type
+You can use setFilter() to filter the blocks to a specific sprite type <br />
 the first argument is the filter type. This is optional and if you don't put in anything it will be sprite only.
 ```js
 extension.addBlock("This is a boolean that only appears on the sprite!","tBlock3",Scratch.BlockType.BOOLEAN,() => {
