@@ -21,6 +21,19 @@ class ExtensionBuilder {
         NOTE: "note",
       },
       vm: window.vm,
+      Cast: {
+        toNumber: (input) => {
+          return Number(input);
+        },
+
+        toString: (input) => {
+          return String(input);
+        },
+
+        toBoolean: (input) => {
+          return Boolean(input);
+        },
+      },
       extensions: {
         unsandboxed: true,
         register: (object) => {
@@ -124,6 +137,12 @@ class ExtensionBuilder {
         return this.internal.JSON.blocks[blockIndex];
       };
 
+      this.internal.JSON.blocks[blockIndex].setFilter = (filter) => {
+        filter = filter || Scratch.TargetType.SPRITE;
+
+        this.internal.JSON.blocks[blockIndex].filter = filter;
+        return this.internal.JSON.blocks[blockIndex];
+      };
       return this.internal.JSON.blocks[blockIndex];
     };
 
