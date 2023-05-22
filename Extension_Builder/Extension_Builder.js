@@ -146,11 +146,11 @@ class ExtensionBuilder {
 
       this.internal.JSON.blocks[blockIndex].hideBlock = () => {
         this.internal.JSON.blocks[blockIndex].hideFromPalette = true;
-      }
+      };
 
       this.internal.JSON.blocks[blockIndex].stopMoniter = () => {
         this.internal.JSON.blocks[blockIndex].disableMonitor = true;
-      }
+      };
 
       return this.internal.JSON.blocks[blockIndex];
     };
@@ -185,9 +185,7 @@ class ExtensionBuilder {
       this.internal.JSON.blocks.push(LabelJSON);
     };
 
-    this.__NOUSEOPCODE = () => {
-
-    }
+    this.__NOUSEOPCODE = () => {};
     //Seperate this big chunk from the rest
     this.internal.createBase = () => {
       extensionName = extensionName || "Extension";
