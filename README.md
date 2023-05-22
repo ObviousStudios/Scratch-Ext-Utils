@@ -75,6 +75,18 @@ extension.addMenu("Menu",() => {
 })
 ```
 
+#### Adding Labels
+You can use addLabel() to add a Label between two blocks <br />
+```js
+extension.addLabel("Made by ObviousAlexC")
+```
+
+#### Adding Dividers
+You can use addDivider() to add a divider between two blocks <br />
+```js
+extension.addDivider()
+```
+
 #### Filtering Blocks
 You can use setFilter() to filter the blocks to a specific sprite type <br />
 the first argument is the filter type. This is optional and if you don't put in anything it will be sprite only.
@@ -82,6 +94,14 @@ the first argument is the filter type. This is optional and if you don't put in 
 extension.addBlock("This is a boolean that only appears on the sprite!","tBlock3",Scratch.BlockType.BOOLEAN,() => {
     console.log("This Works!")
 }).setFilter(Scratch.TargetType.SPRITE)
+```
+
+#### Hiding Blocks
+You can use hideBlock() to hide the current block <br />
+```js
+extension.addBlock("This Block won't appear.","tBlock",Scratch.BlockType.BOOLEAN,() => {
+    console.log("This Works!")
+}).hideBlock()
 ```
 
 #### Registering an extension
