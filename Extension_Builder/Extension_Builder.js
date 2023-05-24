@@ -137,6 +137,10 @@ class ExtensionBuilder {
         return this.internal.JSON.blocks[blockIndex];
       };
 
+      this.internal.JSON.blocks[blockIndex].setIcon = (URL) => {
+        this.internal.JSON.blocks[blockIndex].blockIconURI = URL;
+      };
+
       this.internal.JSON.blocks[blockIndex].setFilter = (filter) => {
         filter = filter || Scratch.TargetType.SPRITE;
 
@@ -241,6 +245,26 @@ class ExtensionBuilder {
     };
 
     this.internal.createBase();
+
+    this.setColors = (C1, C2, C3) => {
+      C1 = typeof C1 == "string" ? C1 : (C1 + 0).toString(16);
+      C2 = typeof C2 == "string" ? C2 : (C2 + 0).toString(16);
+      C3 = typeof C3 == "string" ? C3 : (C3 + 0).toString(16);
+      this.internal.colors[0] = C1;
+      this.internal.colors[1] = C2;
+      this.internal.colors[2] = C3;
+      this.internal.JSON.color1 = C1;
+      this.internal.JSON.color2 = C2;
+      this.internal.JSON.color3 = C3;
+    };
+
+    this.setMenuIcon = (URL) => {
+      this.internal.JSON.menuIconURI = URL;
+    };
+
+    this.setGlobalBlockIcon = (URL) => {
+      this.internal.JSON.blockIconURI = URL;
+    };
 
     this.getInfo = () => {
       return this.internal.JSON;
