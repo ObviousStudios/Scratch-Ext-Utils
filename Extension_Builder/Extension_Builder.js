@@ -1,57 +1,13 @@
 class ExtensionBuilder {
   constructor(extensionName, extensionID, colors, icon) {
-    Scratch = Scratch || {
-      TargetType: {
-        SPRITE: "sprite",
-        STAGE: "stage",
-      },
-      BlockType: {
-        COMMAND: "command",
-        REPORTER: "reporter",
-        BOOLEAN: "Boolean",
-        HAT: "hat",
-      },
-      ArgumentType: {
-        STRING: "string",
-        NUMBER: "number",
-        COLOR: "color",
-        ANGLE: "angle",
-        BOOLEAN: "Boolean",
-        MATRIX: "matrix",
-        NOTE: "note",
-      },
-      vm: window.vm,
-      Cast: {
-        toNumber: (input) => {
-          return Number(input);
-        },
-
-        toString: (input) => {
-          return String(input);
-        },
-
-        toBoolean: (input) => {
-          return Boolean(input);
-        },
-      },
-      extensions: {
-        unsandboxed: true,
-        register: (object) => {
-          const serviceName =
-            vm.extensionManager._registerInternalExtension(object);
-          vm.extensionManager._loadedExtensions.set(
-            object.getInfo().id,
-            serviceName
-          );
-        },
-      },
-    };
     //Initilize the extension json
     this.internal = {};
     this.internal.JSON = {
       blocks: [],
       menus: {},
     };
+
+    this.runtime = Scratch.vm.runtime;
 
     //Putting this into the constructor because that is really funny
     this.internal.defaultFunction = {
@@ -122,12 +78,11 @@ class ExtensionBuilder {
           }
         }
 
-        if(defaultValue == null){
+        if (defaultValue == null) {
           this.internal.JSON.blocks[blockIndex].arguments[argumentName] = {
             type: overideType,
           };
-        }
-        else{
+        } else {
           this.internal.JSON.blocks[blockIndex].arguments[argumentName] = {
             type: overideType,
             defaultValue: defaultValue,
@@ -163,6 +118,26 @@ class ExtensionBuilder {
         this.internal.JSON.blocks[blockIndex].disableMonitor = true;
       };
 
+      this.internal.JSON.blocks[blockIndex].setEdgeActivation = (toggle) => {
+        this.internal.JSON.blocks[blockIndex].isEdgeActivated = toggle;
+      };
+
+      this.internal.JSON.blocks[blockIndex].addImage = (
+        argumentName,
+        imageURI,
+        flip
+      ) => {
+        flip = flip || false;
+        const imageJson = {
+          type: Scratch.ArgumentType.IMAGE,
+          dataURI: imageURI,
+          flipRTL: flip,
+        };
+
+        this.internal.JSON.blocks[blockIndex].arguments[argumentName] =
+          imageJson;
+      };
+
       return this.internal.JSON.blocks[blockIndex];
     };
 
@@ -179,6 +154,24 @@ class ExtensionBuilder {
         };
       }
       this.internal.JSON.menus[menuName].acceptReporters = acceptReporters;
+    };
+
+    this.addButton = (buttonID, buttonFunction, buttonText) => {
+      buttonFunction = buttonFunction || this.internal.defaultFunction.code;
+      buttonText = buttonText || "Button";
+
+      this["button_" + buttonID] = buttonFunction;
+      const buttonJson = {};
+
+      buttonJson.func = "button_" + buttonID;
+      buttonJson.blockType = Scratch.BlockType.BUTTON;
+      buttonJson.text = buttonText;
+
+      const buttonIndex = this.internal.JSON.blocks.length;
+
+      this.internal.JSON.blocks[buttonIndex] = buttonJson;
+
+      return this.internal.JSON.blocks[buttonIndex];
     };
 
     this.addDivider = () => {
@@ -257,7 +250,7 @@ class ExtensionBuilder {
       C1 = typeof C1 == "string" ? C1 : (C1 + 0).toString(16);
       C2 = typeof C2 == "string" ? C2 : (C2 + 0).toString(16);
       C3 = typeof C3 == "string" ? C3 : (C3 + 0).toString(16);
-      this.internal.colors = [0,0,0]
+      this.internal.colors = [0, 0, 0];
       this.internal.colors[0] = C1;
       this.internal.colors[1] = C2;
       this.internal.colors[2] = C3;
@@ -272,6 +265,10 @@ class ExtensionBuilder {
 
     this.setGlobalBlockIcon = (URL) => {
       this.internal.JSON.blockIconURI = URL;
+    };
+
+    this.runHat = (hatID) => {
+      this.runtime.startHats(this.internal.JSON.id + "_" + hatID);
     };
 
     this.getInfo = () => {
