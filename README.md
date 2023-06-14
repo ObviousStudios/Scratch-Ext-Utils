@@ -4,15 +4,18 @@
     -  [Extension Builder](https://github.com/ObviousStudios/VM-Utilities/tree/main#extension-builder)
         -  [Initilizing](https://github.com/ObviousStudios/VM-Utilities/tree/main#initilizing-an-extension)
         -  [Adding a Block](https://github.com/ObviousStudios/VM-Utilities/tree/main#adding-a-block)
+            -  [Event activated Hats](https://github.com/ObviousStudios/VM-Utilities/tree/main#event-activated-hats)
         -  [Arguments](https://github.com/ObviousStudios/VM-Utilities/tree/main#adding-an-argument-to-a-block)
+            -  [Inline Images](https://github.com/ObviousStudios/VM-Utilities/tree/main#adding-an-image-to-a-block)
+        -  [Adding a Button](https://github.com/ObviousStudios/VM-Utilities/tree/main#adding-a-button)
         -  [Menus](https://github.com/ObviousStudios/VM-Utilities/tree/main#adding-a-menu)
             - [Static](https://github.com/ObviousStudios/VM-Utilities/tree/main#static-menu-example)
             - [Dynamic](https://github.com/ObviousStudios/VM-Utilities/tree/main#dynamic-menu-example)
-        - [Adding Labels](https://github.com/ObviousStudios/VM-Utilities/tree/main#adding-labels)
-        - [Adding Dividers](https://github.com/ObviousStudios/VM-Utilities/tree/main#adding-dividers)
-        - [Filtering](https://github.com/ObviousStudios/VM-Utilities/tree/main#filtering-blocks)
-        - [Hiding Blocks](https://github.com/ObviousStudios/VM-Utilities/tree/main#hiding-blocks)
-        - [Registering](https://github.com/ObviousStudios/VM-Utilities/tree/main#registering-an-extension)
+        -  [Adding Labels](https://github.com/ObviousStudios/VM-Utilities/tree/main#adding-labels)
+        -  [Adding Dividers](https://github.com/ObviousStudios/VM-Utilities/tree/main#adding-dividers)
+        -  [Filtering](https://github.com/ObviousStudios/VM-Utilities/tree/main#filtering-blocks)
+        -  [Hiding Blocks](https://github.com/ObviousStudios/VM-Utilities/tree/main#hiding-blocks)
+        -  [Registering](https://github.com/ObviousStudios/VM-Utilities/tree/main#registering-an-extension)
 # What is VM-Utilities?
 A bunch of wrappers for better interacting with the scratch VM and the object's it holds within itself.
 
@@ -46,6 +49,21 @@ extension.addBlock("Test Block [testArg]","tBlock",Scratch.BlockType.BOOLEAN,
 })
 ```
 
+#### Event activated hats
+Say you want to create a hat and activate it at certain points. How would you do that? <br />
+well that is where setEdgeActivation() comes in handy <br />
+after declaring a block you can use setEdgeActivation() to set the edge activation status <br />
+The first and only argument for this function is weather edge activation is on. <br />
+For this hat we will set it to false. <br />
+<br />
+When we want to activate it all we need to do is run the function runHat() . <br />
+The first and only argument of runHat() is the target Hat's ID. <br />
+Like this
+```js
+extension.runHat("eventHat");
+```
+[Example](https://github.com/ObviousStudios/VM-Utilities/blob/main/Examples/Extension_Builder/eventHats.js)
+
 #### Adding an argument to a block
 Adding an argument is a simple as running addArgument() after declaring a block <br />
 the first argument is the argument's name. <br />
@@ -59,6 +77,35 @@ extension.addBlock("Test Block [testArg]","tBlock",Scratch.BlockType.BOOLEAN,
   console.log("This Works!")
 }).addArgument("testArg","1")
 ```
+
+#### Adding an image to a block
+Adding an image as an argument is as simple as running addImage() after declaring a block <br />
+the first argument is the argument's name. <br />
+the second argument is the image's dataURI. <br />
+the third is optional and allows you to flip the image. <br />
+```js
+const imageURI = //Very long data URI of an image or SVG
+    
+extension.addBlock("Look at this cool iamge! [image]","imageTest",Scratch.BlockType.COMMAND,
+() => {
+  console.log("Why are you looking at the console >:(")
+}).addImage("image",imageURI,false)
+```
+[Example](https://github.com/ObviousStudios/VM-Utilities/blob/main/Examples/Extension_Builder/Images.js)
+
+#### Adding a button
+extension.addButton() allows you to create a button in your extension <br />
+the first argument is the button's ID. <br />
+the second is the button's function <br />
+the third is the button's text <br />
+```js
+extension.addButton("myButton",
+  ()=>{
+    alert("Buttons!")
+  },
+  "My button!");
+```
+[Example](https://github.com/ObviousStudios/VM-Utilities/blob/main/Examples/Extension_Builder/buttons.js)
 
 #### Adding a menu
 adding a menu can be done via extension.addMenu() <br />
@@ -98,6 +145,7 @@ extension.addBlock("This is a boolean that only appears on the sprite!","tBlock3
     console.log("This Works!")
 }).setFilter(Scratch.TargetType.SPRITE)
 ```
+[Example](https://github.com/ObviousStudios/VM-Utilities/blob/main/Examples/Extension_Builder/Filters.js)
 
 #### Hiding Blocks
 You can use hideBlock() to hide the current block <br />
