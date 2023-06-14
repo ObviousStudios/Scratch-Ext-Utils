@@ -101,6 +101,7 @@ class ExtensionBuilder {
 
       this.internal.JSON.blocks[blockIndex].setIcon = (URL) => {
         this.internal.JSON.blocks[blockIndex].blockIconURI = URL;
+        return this.internal.JSON.blocks[blockIndex];
       };
 
       this.internal.JSON.blocks[blockIndex].setFilter = (filter) => {
@@ -112,14 +113,17 @@ class ExtensionBuilder {
 
       this.internal.JSON.blocks[blockIndex].hideBlock = () => {
         this.internal.JSON.blocks[blockIndex].hideFromPalette = true;
+        return this.internal.JSON.blocks[blockIndex];
       };
 
       this.internal.JSON.blocks[blockIndex].stopMoniter = () => {
         this.internal.JSON.blocks[blockIndex].disableMonitor = true;
+        return this.internal.JSON.blocks[blockIndex];
       };
 
       this.internal.JSON.blocks[blockIndex].setEdgeActivation = (toggle) => {
         this.internal.JSON.blocks[blockIndex].isEdgeActivated = toggle;
+        return this.internal.JSON.blocks[blockIndex];
       };
 
       this.internal.JSON.blocks[blockIndex].addImage = (
@@ -136,6 +140,7 @@ class ExtensionBuilder {
 
         this.internal.JSON.blocks[blockIndex].arguments[argumentName] =
           imageJson;
+        return this.internal.JSON.blocks[blockIndex];
       };
 
       return this.internal.JSON.blocks[blockIndex];
