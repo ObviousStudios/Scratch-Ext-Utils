@@ -92,7 +92,7 @@ class ExtensionBuilder {
 
         menu = menu || null;
 
-        if (menu && typeof menu == "string") {
+        if (menu) {
           if (typeof menu == "string") {
             this.internal.JSON.blocks[blockIndex].arguments[argumentName].menu =
               menu;
