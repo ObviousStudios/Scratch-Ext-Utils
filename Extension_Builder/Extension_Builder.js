@@ -92,8 +92,16 @@ class ExtensionBuilder {
         menu = menu || null;
 
         if (menu && typeof menu == "string") {
-          this.internal.JSON.blocks[blockIndex].arguments[argumentName].menu =
-            menu;
+          if (typeof menu == "string") {
+            this.internal.JSON.blocks[blockIndex].arguments[argumentName].menu = menu;
+          }
+          else if(typeof menu == "function" || typeof menu == "object") {
+            this.addMenu(blockID + "_" + argumentName + "_Menu",menu,true);
+            this.internal.JSON.blocks[blockIndex].arguments[argumentName].menu = blockID + "_" + argumentName + "_Menu";
+          }
+          else{
+            console.error("Menu '" + blockID + "_" + argumentName + "_Menu'is not valid!")
+          }
         }
 
         return this.internal.JSON.blocks[blockIndex];
