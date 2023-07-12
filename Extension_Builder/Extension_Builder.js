@@ -44,7 +44,8 @@ class ExtensionBuilder {
       blockJson.text = blockName;
 
       blockJson.arguments =
-        blockArguments || JSON.parse(JSON.stringify(this.internal.defaultFunction.arguments)); // I hate how js does this sometimes should make the project.json smaller
+        blockArguments ||
+        JSON.parse(JSON.stringify(this.internal.defaultFunction.arguments)); // I hate how js does this sometimes should make the project.json smaller
 
       const blockIndex = this.internal.JSON.blocks.length;
       this.internal.JSON.blocks.push(blockJson);
@@ -93,14 +94,16 @@ class ExtensionBuilder {
 
         if (menu && typeof menu == "string") {
           if (typeof menu == "string") {
-            this.internal.JSON.blocks[blockIndex].arguments[argumentName].menu = menu;
-          }
-          else if(typeof menu == "function" || typeof menu == "object") {
-            this.addMenu(blockID + "_" + argumentName + "_Menu",menu,true);
-            this.internal.JSON.blocks[blockIndex].arguments[argumentName].menu = blockID + "_" + argumentName + "_Menu";
-          }
-          else{
-            console.error("Menu '" + blockID + "_" + argumentName + "_Menu'is not valid!")
+            this.internal.JSON.blocks[blockIndex].arguments[argumentName].menu =
+              menu;
+          } else if (typeof menu == "function" || typeof menu == "object") {
+            this.addMenu(blockID + "_" + argumentName + "_Menu", menu, true);
+            this.internal.JSON.blocks[blockIndex].arguments[argumentName].menu =
+              blockID + "_" + argumentName + "_Menu";
+          } else {
+            console.error(
+              "Menu '" + blockID + "_" + argumentName + "_Menu'is not valid!"
+            );
           }
         }
 
