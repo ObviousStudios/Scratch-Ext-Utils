@@ -44,7 +44,7 @@ class ExtensionBuilder {
       blockJson.text = blockName;
 
       blockJson.arguments =
-        blockArguments || this.internal.defaultFunction.arguments;
+        blockArguments || JSON.parse(JSON.stringify(this.internal.defaultFunction.arguments)); // I hate how js does this sometimes should make the project.json smaller
 
       const blockIndex = this.internal.JSON.blocks.length;
       this.internal.JSON.blocks.push(blockJson);
