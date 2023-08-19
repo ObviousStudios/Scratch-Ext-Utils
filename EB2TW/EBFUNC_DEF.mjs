@@ -1,0 +1,20 @@
+export default [
+    "internal",
+    "addDocs",
+    "addBlock",
+    "addMenu",
+    "addButton",
+    "addDivider",
+    "addLabel",
+    "__NOUSEOPCODE",
+    "setColors",
+    "setMenuIcon",
+    "setGlobalBlockIcon",
+    "getInfo",
+    "register",
+    "blockIco",
+    "docsUri",
+    "menuUri",
+    "runtime",
+    "runHat"
+]
