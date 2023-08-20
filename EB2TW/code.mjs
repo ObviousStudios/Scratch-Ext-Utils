@@ -177,23 +177,21 @@ convertButton.onclick = () => {
         stringifiedClass = stringifiedClass.replaceAll('__NOUSEOPCODE:() {}','__NOUSEOPCODE(){}');
         stringifiedClass = stringifiedClass.replaceAll('__NOUSEOPCODE(){},','__NOUSEOPCODE(){}');
 
-        stringifiedClass = stringifiedClass.replaceAll("\\n", "");
+        stringifiedClass = stringifiedClass.replaceAll("\\n", "\n");
 
         stringifiedClass = stringifiedClass.replaceAll('":"() => { '," () {");
         stringifiedClass = stringifiedClass.replaceAll('"()=>{}','() {}')
         stringifiedClass = stringifiedClass.replaceAll('":"({', "({");
         stringifiedClass = stringifiedClass.replaceAll('}",',"}");
+        stringifiedClass = stringifiedClass.replaceAll('}"','}');
         stringifiedClass = stringifiedClass.replaceAll('  }"}'," }");
         stringifiedClass = stringifiedClass.replaceAll('}) => {','}) {')
         stringifiedClass = stringifiedClass.replaceAll('"getInfo',"getInfo");
         stringifiedClass = stringifiedClass.replaceAll(') => {', ') {');
         stringifiedClass = stringifiedClass.replaceAll('\\"','"');
 
-        stringifiedClass = stringifiedClass.replace('"BRUH"+JSON.stringify(resultingJSON[1])+"BRUH"',JSON.stringify(resultingJSON[1]))
         stringifiedClass = stringifiedClass.replaceAll('"opcode":"__NOUSEOPCODE",',"");
         stringifiedClass = stringifiedClass.replaceAll('"opcode":"__NOUSEOPCODE"', "");
-        stringifiedClass = stringifiedClass.replaceAll('"EB__RUNTIME_REPLACE"', 'Scratch.vm.runtime')
-        stringifiedClass = stringifiedClass.replaceAll('"EB_runtime_NAME":', 'runtime=')
         stringifiedClass = stringifiedClass.replaceAll(/(?<= )(.*?)\.runHat\(/g, 'Scratch.vm.runtime.startHats("' + resultingJSON[1].id + '_" +')
 
         console.log(resultingJSON[0])
@@ -201,18 +199,53 @@ convertButton.onclick = () => {
         Object.keys(resultingJSON[0]).forEach(opcode => {
             if (!EBFUNC.default.includes(opcode)){
                 stringifiedClass = stringifiedClass.replaceAll('"EB_INBOUNDVAR' + opcode + '":', opcode+"=");
+                stringifiedClass = stringifiedClass.replaceAll(opcode + '":"', opcode);
             }
         })
 
         blocks.forEach(block => {
             if (block.opcode){
-                stringifiedClass = stringifiedClass.replaceAll('"'+block.opcode,block.opcode);
-                stringifiedClass = stringifiedClass.replaceAll(block.opcode+'":',block.opcode);
-                stringifiedClass = stringifiedClass.replaceAll(block.opcode+'"',block.opcode);
+                stringifiedClass = stringifiedClass.replaceAll('"'+block.opcode+'":',block.opcode+'=');
                 stringifiedClass = stringifiedClass.replaceAll('"opcode":' + block.opcode+",",'"opcode": "__OPPED__' + block.opcode + '__OPPED__",')
                 stringifiedClass = stringifiedClass.replaceAll('('+block.opcode+')','("'+block.opcode+'")');
             }
         });
+
+        stringifiedClass = stringifiedClass.replace('"BRUH"+JSON.stringify(resultingJSON[1])+"BRUH"',JSON.stringify(resultingJSON[1]))
+
+        stringifiedClass = stringifiedClass.replaceAll('"EB__RUNTIME_REPLACE"', 'Scratch.vm.runtime')
+        stringifiedClass = stringifiedClass.replaceAll('"EB_runtime_NAME":', 'runtime=')
+        stringifiedClass = stringifiedClass.replaceAll('EB_runtime_NAME":', 'runtime=')
+
+
+        //Replace the blockTypes
+        stringifiedClass = stringifiedClass.replaceAll('"blockType":"command"', 'blockType: Scratch.BlockType.COMMAND')
+        stringifiedClass = stringifiedClass.replaceAll('"blockType":"Boolean"', 'blockType: Scratch.BlockType.BOOLEAN')
+        stringifiedClass = stringifiedClass.replaceAll('"blockType":"boolean"', 'blockType: Scratch.BlockType.BOOLEAN')
+        stringifiedClass = stringifiedClass.replaceAll('"blockType":"button"', 'blockType: Scratch.BlockType.BUTTON')
+        stringifiedClass = stringifiedClass.replaceAll('"blockType":"label"', 'blockType: Scratch.BlockType.LABEL')
+        stringifiedClass = stringifiedClass.replaceAll('"blockType":"conditional"', 'blockType: Scratch.BlockType.CONDITIONAL')
+        stringifiedClass = stringifiedClass.replaceAll('"blockType":"event"', 'blockType: Scratch.BlockType.EVENT')
+        stringifiedClass = stringifiedClass.replaceAll('"blockType":"hat"', 'blockType: Scratch.BlockType.HAT')
+        stringifiedClass = stringifiedClass.replaceAll('"blockType":"loop"', 'blockType: Scratch.BlockType.LOOP')
+        stringifiedClass = stringifiedClass.replaceAll('"blockType":"reporter"', 'blockType: Scratch.BlockType.REPORTER')
+        stringifiedClass = stringifiedClass.replaceAll('"blockType":"xml"', 'blockType: Scratch.BlockType.XML')
+
+        //Replace the blockTypes
+        stringifiedClass = stringifiedClass.replaceAll('"type":"angle"', 'type: Scratch.ArgumentType.ANGLE')
+        stringifiedClass = stringifiedClass.replaceAll('"type":"Boolean"', 'type: Scratch.ArgumentType.BOOLEAN')
+        stringifiedClass = stringifiedClass.replaceAll('"type":"boolean"', 'type: Scratch.ArgumentType.BOOLEAN')
+        stringifiedClass = stringifiedClass.replaceAll('"type":"color"', 'type: Scratch.ArgumentType.COLOR')
+        stringifiedClass = stringifiedClass.replaceAll('"type":"number"', 'type: Scratch.ArgumentType.NUMBER')
+        stringifiedClass = stringifiedClass.replaceAll('"type":"string"', 'type: Scratch.ArgumentType.STRING')
+        stringifiedClass = stringifiedClass.replaceAll('"type":"matrix"', 'type: Scratch.ArgumentType.MATRIX')
+        stringifiedClass = stringifiedClass.replaceAll('"type":"note"', 'type: Scratch.ArgumentType.NOTE')
+        stringifiedClass = stringifiedClass.replaceAll('"type":"image"', 'type: Scratch.ArgumentType.IMAGE')
+        stringifiedClass = stringifiedClass.replaceAll('"type":"costume"', 'type: Scratch.ArgumentType.COSTUME')
+        stringifiedClass = stringifiedClass.replaceAll('"type":"sound"', 'type: Scratch.ArgumentType.SOUND')
+
+
+        stringifiedClass = stringifiedClass.replaceAll('\\"','"');
 
         stringifiedClass = stringifiedClass.replaceAll("__OPPED__","");
 
