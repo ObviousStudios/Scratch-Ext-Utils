@@ -127,6 +127,11 @@ class ExtensionBuilder {
         return this.internal.JSON.blocks[blockIndex];
       };
 
+      this.internal.JSON.blocks[blockIndex].allowMonitor = () => {
+        this.internal.JSON.blocks[blockIndex].disableMonitor = false;
+        return this.internal.JSON.blocks[blockIndex];
+      };
+
       this.internal.JSON.blocks[blockIndex].stopMoniter = () => {
         this.internal.JSON.blocks[blockIndex].disableMonitor = true;
         return this.internal.JSON.blocks[blockIndex];
@@ -197,15 +202,12 @@ class ExtensionBuilder {
     this.addLabel = (Label) => {
       Label = Label || "N/A";
       const LabelJSON = {
-        opcode: "__NOUSEOPCODE",
         blockType: "label",
         text: Label,
       };
 
       this.internal.JSON.blocks.push(LabelJSON);
     };
-
-    this.__NOUSEOPCODE = () => {};
     //Seperate this big chunk from the rest
     this.internal.createBase = () => {
       extensionName = extensionName || "Extension";
